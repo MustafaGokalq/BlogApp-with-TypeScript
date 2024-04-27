@@ -1,6 +1,6 @@
 import express,{ Router } from "express";
-import { register, get_users, get_id_user, login, me } from "../controllers/auth";
-import { checkToken } from "../middlewares/auth";
+import { register, get_users, get_id_user, login} from "../controllers/auth";
+//import { checkToken } from "../middlewares/auth";
 
 
 

@@ -4,12 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const auth_1 = require("../controllers/auth");
-//import { checkToken } from "../middlewares/auth";
+const role_1 = require("../controllers/role");
 const router = express_1.default.Router();
-router.post("/register", auth_1.register);
-router.get("/get-register", auth_1.get_users);
-router.get("/get-id-register/:id", auth_1.get_id_user);
-router.post("/login", auth_1.login);
-// router.get("/me",checkToken ,me)
+router.post("/post", role_1.role_create);
+router.get("/get", role_1.role_get);
+router.get("/get/:id", role_1.role_get_id);
+router.put("/update/:id", role_1.role_update);
+router.delete("/delete/:id", role_1.role_delete);
 exports.default = router;
