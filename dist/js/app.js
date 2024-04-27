@@ -28,6 +28,7 @@ const dummy_data_1 = __importDefault(require("./data/dummy-data"));
 const category_1 = __importDefault(require("./models/category"));
 const blog_1 = __importDefault(require("./models/blog"));
 const user_1 = __importDefault(require("./models/user"));
+const role_1 = __importDefault(require("./models/role"));
 const app = (0, express_1.default)();
 const SequelizeSessionStore = (0, connect_session_sequelize_1.default)(express_session_1.default.Store);
 //middleware
@@ -54,6 +55,8 @@ user_1.default.belongsTo(blog_1.default);
 blog_1.default.hasMany(user_1.default);
 blog_1.default.belongsToMany(category_1.default, { through: "blogCategories" });
 category_1.default.belongsToMany(blog_1.default, { through: "blogCategories" });
+role_1.default.belongsToMany(user_1.default, { through: "userRoles" });
+user_1.default.belongsToMany(role_1.default, { through: "userRoles" });
 //ilişkiler
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield db_2.sequelize.sync({ force: true });

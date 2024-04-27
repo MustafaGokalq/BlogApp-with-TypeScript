@@ -14,10 +14,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const category_1 = __importDefault(require("../models/category"));
 const blog_1 = __importDefault(require("../models/blog"));
+const user_1 = __importDefault(require("../models/user"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const role_1 = __importDefault(require("../models/role"));
 function populate() {
     return __awaiter(this, void 0, void 0, function* () {
         const count = yield category_1.default.count();
         if (count == 0) {
+            const users = yield user_1.default.bulkCreate([
+                { name: "mustafa", email: "mustafa@gmail.com", password: yield bcrypt_1.default.hash("123456", 10) },
+                { name: "erhan", email: "erhan@gmail.com", password: yield bcrypt_1.default.hash("123456", 10) },
+                { name: "ridvan", email: "ridvan@gmail.com", password: yield bcrypt_1.default.hash("123456", 10) },
+            ]);
+            const roles = yield role_1.default.bulkCreate([
+                { roleName: "admin" },
+                { roleName: "moderator" },
+                { roleName: "guest" },
+            ]);
+            yield users[0].addRole(roles[0]);
+            yield users[1].addRole(roles[1]);
+            yield users[2].addRole(roles[2]);
             const categories = yield category_1.default.bulkCreate([
                 { name: "Web Geliştirme" },
                 { name: "Mobil Geliştirme" },

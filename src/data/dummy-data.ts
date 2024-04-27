@@ -1,11 +1,30 @@
 import Category from "../models/category";
 import Blog from "../models/blog";
-
+import User from "../models/user";
+import bcrypt from "bcrypt";
+import Role from "../models/role";
 
 async function populate() {
   const count = await Category.count();
 
   if (count == 0) {
+
+    const users = await User.bulkCreate([
+      {name:"mustafa", email:"mustafa@gmail.com", password: await bcrypt.hash("123456", 10)},
+      {name:"erhan", email:"erhan@gmail.com", password: await bcrypt.hash("123456", 10)},
+      {name:"ridvan", email:"ridvan@gmail.com", password: await bcrypt.hash("123456", 10)},
+    ]);
+
+    const roles = await Role.bulkCreate([
+      {roleName:"admin"},
+      {roleName:"moderator"},
+      {roleName:"guest"},
+    ])
+
+    await users[0].addRole(roles[0]);
+    await users[1].addRole(roles[1]);
+    await users[2].addRole(roles[2]);
+
     const categories = await Category.bulkCreate([
       { name: "Web Geliştirme" },
       { name: "Mobil Geliştirme" },
@@ -57,6 +76,8 @@ async function populate() {
     ]);
 
     
+    
+
     await categories[0].addBlog(blogs[0]);
     await categories[0].addBlog(blogs[1]);
     await categories[0].addBlog(blogs[2]);

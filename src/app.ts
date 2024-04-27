@@ -16,6 +16,7 @@ import populate from "./data/dummy-data";
 import Category from "./models/category";
 import Blog from "./models/blog";
 import User from "./models/user";
+import Role from "./models/role";
 
 
 const app:Express=express()
@@ -50,6 +51,8 @@ Blog.hasMany(User);
 Blog.belongsToMany(Category, {through:"blogCategories"});
 Category.belongsToMany(Blog,{through:"blogCategories"});
 
+Role.belongsToMany(User, {through:"userRoles"});
+User.belongsToMany(Role, {through:"userRoles"});
 
 //ilişkiler
 (async()=>{
