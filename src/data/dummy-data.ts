@@ -20,9 +20,11 @@ async function populate() {
       {roleName:"moderator"},
       {roleName:"guest"},
     ])
-
+    //@ts-ignore
     await users[0].addRole(roles[0]);
+    //@ts-ignore
     await users[1].addRole(roles[1]);
+    //@ts-ignore
     await users[2].addRole(roles[2]);
 
     const categories = await Category.bulkCreate([
@@ -77,26 +79,16 @@ async function populate() {
 
     
     
-
+    
+    {
+    // @ts-ignore  
     await categories[0].addBlog(blogs[0]);
+    // @ts-ignore
     await categories[0].addBlog(blogs[1]);
-    await categories[0].addBlog(blogs[2]);
-    await categories[0].addBlog(blogs[3]);
-    await categories[0].addBlog(blogs[4]);
-    await categories[0].addBlog(blogs[5]);
-    await categories[0].addBlog(blogs[6]);
-    await categories[1].addBlog(blogs[7]);
-    await categories[1].addBlog(blogs[8]);
-
-    await categories[1].addBlog(blogs[2]);
-    await categories[1].addBlog(blogs[3]);
-
-    await categories[2].addBlog(blogs[2]);
-    await categories[2].addBlog(blogs[3]);
-
+    // @ts-ignore
     await blogs[0].addCategory(categories[1]);
 
-
+}
   }
 }
 

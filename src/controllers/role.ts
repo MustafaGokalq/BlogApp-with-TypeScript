@@ -59,7 +59,7 @@ export const role_update = async(req:Request, res:Response)=>{
 
 export const role_delete = async(req:Request, res:Response)=>{
     try {
-        const role =await Role.findByPk(req.params.id)
+        const role =await Role.findByPk(req.params.id);
 
         if(!role){
             throw new APIError("istenen api bulunamadı",400)

@@ -5,23 +5,24 @@ import Iblog from "../types/IBlog";
 import APIError from "../utils/error";
 import Category from "../models/category";
 
-
 export const BlogGetAll = async (req: Request, res: Response) => {
   try {
-    const { baslik, altbaslik } = req.body as Pick<Iblog, "baslik" | "altbaslik">;
+    const { baslik, altbaslik } = req.body as Pick<
+      Iblog,
+      "baslik" | "altbaslik"
+    >;
     const blog = await Blog.findAll({
       attributes: ["baslik", "altbaslik"],
       include: {
         model: Category,
-        attributes: ["name"]
-      }  
+        attributes: ["name"],
+      },
     });
     new Result(blog, "işlem başarılı").success(res);
   } catch (error) {
     throw new APIError("işlem başarısız", 400);
   }
 };
-
 
 export const BlogGet = async (req: Request, res: Response) => {
   try {
@@ -35,7 +36,7 @@ export const BlogGet = async (req: Request, res: Response) => {
 
 export const BlogCreate = async (req: Request, res: Response) => {
   try {
-    const newBlog:Iblog = req.body
+    const newBlog: Iblog = req.body;
 
     const blog = await Blog.create(newBlog);
     await blog.save();
@@ -47,7 +48,7 @@ export const BlogCreate = async (req: Request, res: Response) => {
 
 export const BlogUpdate = async (req: Request, res: Response) => {
   try {
-    const updatedBlog:Iblog = req.body;
+    const updatedBlog: Iblog = req.body;
 
     const blog = await Blog.findByPk(req.params.id);
 
@@ -56,13 +57,13 @@ export const BlogUpdate = async (req: Request, res: Response) => {
     }
 
     await blog.update(updatedBlog);
-    new Result(updatedBlog, "işlem başarılı bir şekilde güncellendi").success(res);
+    new Result(updatedBlog, "işlem başarılı bir şekilde güncellendi").success(
+      res
+    );
   } catch (error) {
     throw new APIError("işlem başarısız", 400);
   }
 };
-
-
 
 export const BlogDelete = async (req: Request, res: Response) => {
   try {

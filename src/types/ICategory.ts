@@ -2,7 +2,8 @@
 
 interface ICategory{
 
-    name:string
+    name:string,
+    addBlog?:string
 }
 
 export default ICategory
