@@ -5,6 +5,8 @@ import bcrypt from "bcrypt";
 import Result from "../utils/result";
 import IUser from "../types/IUser";
 import {createToken } from "../middlewares/auth";
+import emailService from "../helpers/send-mail";
+
 
 export const register = async (req: Request, res: Response): Promise<any> => {
   const { checkmail } = req.body.email;
@@ -19,7 +21,17 @@ export const register = async (req: Request, res: Response): Promise<any> => {
 
   const newUser: IUser = req.body;
   await User.create(newUser);
+
+
   createToken(newUser,res)
+
+  await emailService.sendMail({
+    from: process.env.FROM,
+    to:newUser.email,
+    subject:"hesabınız oluşturuldu",
+    text:"hesabınız başarılı bir şekilde oluşturuldu."
+  })
+
 };
 
 
@@ -72,7 +84,7 @@ export const get_id_user = async (req: Request, res: Response) => {
   try {
     const user = await User.findByPk(req.params.id);
     //const cookie = res.cookie("isAuth", 1); cookie kısmı
-    const session = req.session.isAuth = 1;
+    const session = (req.session.isAuth = 1);
     new Result(user, `${session}`).success(res);
   } catch (error) {
     throw new APIError("kullanıcı bulunamadı", 404);

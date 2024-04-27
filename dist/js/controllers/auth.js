@@ -18,6 +18,7 @@ const error_1 = __importDefault(require("../utils/error"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const result_1 = __importDefault(require("../utils/result"));
 const auth_1 = require("../middlewares/auth");
+const send_mail_1 = __importDefault(require("../helpers/send-mail"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { checkmail } = req.body.email;
     const mail = yield user_1.default.findOne(checkmail);
@@ -28,6 +29,12 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = req.body;
     yield user_1.default.create(newUser);
     (0, auth_1.createToken)(newUser, res);
+    yield send_mail_1.default.sendMail({
+        from: process.env.FROM,
+        to: newUser.email,
+        subject: "hesabınız oluşturuldu",
+        text: "hesabınız başarılı bir şekilde oluşturuldu."
+    });
 });
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,7 +72,7 @@ const get_id_user = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const user = yield user_1.default.findByPk(req.params.id);
         //const cookie = res.cookie("isAuth", 1); cookie kısmı
-        const session = req.session.isAuth = 1;
+        const session = (req.session.isAuth = 1);
         new result_1.default(user, `${session}`).success(res);
     }
     catch (error) {
